@@ -14,21 +14,20 @@ node {
      }
 	
      stage('SonarQube analysis') {
-            steps{
-                withSonarQubeEnv('SonarQube-Server'){
+            withSonarQubeEnv('SonarQube-Server'){
                     sh "mvn clean package"
                     sh "mvn sonar:sonar -Dsonar.projectKey=cccr-innogrid -Dsonar.host.url=http://192.168.56.101:9000 -Dsonar.login=sqp_89d07124730b6ee47afaaa9937ba9b3a865d0136"
-                }
+                
             }
         }
 
       stage('SonarQube Quality Gate'){
-    steps{
-        timeout(time: 1, unit: 'MINUTES') {
-            script{
-                echo "Start~~~~"
-                def qg = waitForQualityGate()
-                echo "Status: ${qg.status}"
+   	 
+     	   timeout(time: 1, unit: 'MINUTES') {
+        	    script{
+          	      echo "Start~~~~"
+           	      def qg = waitForQualityGate()
+                  echo "Status: ${qg.status}"
                 if(qg.status != 'OK') {
                     echo "NOT OK Status: ${qg.status}"
                     updateGitlabCommitStatus(name: "SonarQube Quality Gate", state: "failed")
@@ -38,9 +37,9 @@ node {
                     updateGitlabCommitStatus(name: "SonarQube Quality Gate", state: "success")
                 }
                 echo "End~~~~"
+            
             }
         }
     }
-}
      
 }
