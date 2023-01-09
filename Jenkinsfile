@@ -6,13 +6,7 @@ node {
      stage('Build image') {
          app = docker.build("bart09/test")
      }
-     stage('Push image') {
-         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
-             app.push("$BUILD_NUMBER")
-	     app.push("latest")
-         }
-     }
-	
+
      stage('SonarQube analysis') {
             withSonarQubeEnv('SonarQube-Server'){
                     sh "mvn clean package"
@@ -22,8 +16,7 @@ node {
         }
 
       stage('SonarQube Quality Gate'){
-   	 
-     	   timeout(time: 1, unit: 'MINUTES') {
+     	timeout(time: 1, unit: 'MINUTES') {
         	    script{
           	      echo "Start~~~~"
            	      def qg = waitForQualityGate()
@@ -39,7 +32,13 @@ node {
                 echo "End~~~~"
             
             }
-        }
-    }
+         }
+     }
      
+     stage('Push image') {
+         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
+             app.push("$BUILD_NUMBER")
+	     app.push("latest")
+         }
+     }
 }
