@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: 
+  name: wi01
+spec: 
+  defaultBackend:
+    service:
+      name: ws01
+      port: 
+        number: 80
+  rules: 
+  - host: duck.travel.com 
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ws01
+            port:
+              number: 80
