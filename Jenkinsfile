@@ -10,7 +10,7 @@ node {
         dependencyCheck additionalArguments: '''
 		-s "./" 
 		-f "ALL"
-		-o "/report" 
+		-o "./" 
 		--prettyPrint''', odcInstallation: 'OWASP Dependency-check'
      }
      stage('SonarQube analysis') {
