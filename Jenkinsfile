@@ -6,8 +6,13 @@ node {
      stage('Build image') {
          app = docker.build("bart09/test")
      }
-     stage ('Dependency-Check Analysis') {
-          sh '/var/lib/jenkins/dependency-check/bin/dependency-check.sh --scan `pwd` --format HTML --out /var/lib/jenkins/reports/dependency-check-report --prettyPrint'
+     stage('Dependency Check Report') {
+        dependencyCheck additionalArguments: ''' 
+            -o "./" 
+            -s "./"
+            -f "ALL" 
+            --prettyPrint''', odcInstallation: 'OWASP Dependency-check'
+        dependencyCheckPublisher pattern: 'dependency-check-report.html'
      }
      stage('SonarQube analysis') {
             withSonarQubeEnv('SonarQube-Server'){
