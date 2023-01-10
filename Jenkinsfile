@@ -20,7 +20,7 @@ node {
          }
      }
      stage('SonarQube Quality Gate'){
-                timeout(time: 3, unit: 'MINUTES') {
+                timeout(time: 10, unit: 'MINUTES') {
                     script{
                         echo "Start~~~~"
                         def qg = waitForQualityGate()
