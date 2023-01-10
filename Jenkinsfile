@@ -7,7 +7,7 @@ node {
          app = docker.build("bart09/test")
      }
      stage('Dependency Check Report') {
-        dependencyCheck additionalArguments: '-o "/home/vagrant/report" -s "./" -f "HTML, XML, JSON" --prettyPrint', odcInstallation: 'OWASP Dependency-check'
+        dependencyCheck additionalArguments: '-o "/home/vagrant/report" -s "./" -f "HTML", "XML", "JSON" --prettyPrint', odcInstallation: 'OWASP Dependency-check'
      }
      stage('SonarQube analysis') {
             withSonarQubeEnv('SonarQube-Server'){
