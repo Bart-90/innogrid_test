@@ -6,6 +6,11 @@ node {
      stage('Build image') {
          app = docker.build("bart09/test")
      }
+     stage ('Dependency-Check Analysis') {
+            steps {
+                sh '/var/lib/jenkins/dependency-check/bin/dependency-check.sh --scan `pwd` --format HTML --out /var/lib/jenkins/reports/dependency-check-report --prettyPrint'
+         }
+     }
      stage('SonarQube analysis') {
             withSonarQubeEnv('SonarQube-Server'){
                     sh "mvn sonar:sonar -Dsonar.projectKey=cccr-innogrid -Dsonar.host.url=http://192.168.56.101:9000 -Dsonar.login=sqp_89d07124730b6ee47afaaa9937ba9b3a865d0136 -Dsonar.sources=."
