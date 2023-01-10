@@ -8,11 +8,10 @@ node {
      }
      stage('Dependency Check Report') {
         dependencyCheck additionalArguments: ''' 
-            -o "./" 
+            -o "/home/vagrant/report" 
             -s "./"
-            -f "ALL" 
+            -f "HTML, XML, JSON" 
             --prettyPrint''', odcInstallation: 'OWASP Dependency-check'
-        dependencyCheckPublisher pattern: 'dependency-check-report.html'
      }
      stage('SonarQube analysis') {
             withSonarQubeEnv('SonarQube-Server'){
