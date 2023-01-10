@@ -8,7 +8,7 @@ node {
      }
      stage('Dependency Check Report') {
         dependencyCheck additionalArguments: '''
-		-s "./" 
+		-s "." 
 		-f "ALL"
 		-o "./" 
 		--prettyPrint''', odcInstallation: 'OWASP Dependency-check'
