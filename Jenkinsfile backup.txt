@@ -4,7 +4,15 @@ node {
          checkout scm
      }
      stage('Build image') {
-         app = docker.build("bart09/test")
+         agent {
+   	 dockerfile {
+       	       filename 'Dockerfile'
+                   dir '.'
+                   label 'bart09/test'
+                   additionalBuildArgs  ''
+                   args '-t --network host'
+   	 }
+         }
      }
      stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
