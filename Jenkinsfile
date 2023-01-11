@@ -10,8 +10,9 @@ node {
         dependencyCheck additionalArguments: '''
 		-s "." 
 		-f "ALL"
-		-o "./report" 
-		--prettyPrint''', odcInstallation: 'OWASP Dependency-check'
+		-o "./" 
+		--prettyPrint''', odcInstallation: 'OWASP Dependency-check 7.4.4'
+		dependencyCheckPublisher pattern: 'dependency-check-report.xml'
      }
      stage('SonarQube analysis') {
             withSonarQubeEnv('SonarQube-Server'){
