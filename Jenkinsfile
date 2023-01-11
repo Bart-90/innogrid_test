@@ -28,7 +28,7 @@ node {
          }
      }
         stage('SonarQube Quality Gate'){
-            steps{
+      
                 timeout(time: 1, unit: 'MINUTES') {
                     script{
                         echo "Start~~~~"
@@ -43,8 +43,8 @@ node {
                             updateGitHubCommitStatus(name: "SonarQube Quality Gate", state: "success")
                         }
                         echo "End~~~~"
-                    }
-                }
+                 }
+                
             }
         }
 
