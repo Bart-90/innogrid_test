@@ -3,9 +3,9 @@ node {
      stage('Clone repository') {
          checkout scm
      }
-     stage('Build image') {
+     /*stage('Build image') {
          app = docker.build("bart09/test", "--network host -f Dockerfile .")
-     }
+     }*/
      stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
 		-s "." 
