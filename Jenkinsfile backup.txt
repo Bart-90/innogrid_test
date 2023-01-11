@@ -9,8 +9,8 @@ node {
        	       filename 'Dockerfile'
                    dir '.'
                    label 'bart09/test'
-                   additionalBuildArgs  ''
-                   args '-t --network host'
+                   additionalBuildArgs  '--network host'
+                   args '-t'
    	 }
          }
      }
