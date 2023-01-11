@@ -36,11 +36,11 @@ node {
                         echo "Status: ${qg.status}"
                         if(qg.status != 'OK') {
                             echo "NOT OK Status: ${qg.status}"
-		    updateGithubCommitStatus(name: "SonarQube Quality Gate", state: "failed")
+		    /* updateGithubCommitStatus(name: "SonarQube Quality Gate", state: "failed") */
                             error "Pipeline aborted due to quality gate failure: ${qg.status}"
                         } else{
                             echo "OK Status: ${qg.status}"
-                            updateGithubCommitStatus(name: "SonarQube Quality Gate", state: "success")
+                            /* updateGithubCommitStatus(name: "SonarQube Quality Gate", state: "success") */
                         }
                         echo "End~~~~"
                  }
