@@ -27,6 +27,27 @@ node {
 		-Dsonar.dependencyCheck.htmlReportPath=./report/dependency-check-report.html"
          }
      }
+        stage('SonarQube Quality Gate'){
+            steps{
+                timeout(time: 1, unit: 'MINUTES') {
+                    script{
+                        echo "Start~~~~"
+                        def qg = waitForQualityGate()
+                        echo "Status: ${qg.status}"
+                        if(qg.status != 'OK') {
+                            echo "NOT OK Status: ${qg.status}"
+                            updateGitHubCommitStatus(name: "SonarQube Quality Gate", state: "failed")
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        } else{
+                            echo "OK Status: ${qg.status}"
+                            updateGitHubCommitStatus(name: "SonarQube Quality Gate", state: "success")
+                        }
+                        echo "End~~~~"
+                    }
+                }
+            }
+        }
+
      /* stage('Push image') {
          docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
              app.push("$BUILD_NUMBER")
