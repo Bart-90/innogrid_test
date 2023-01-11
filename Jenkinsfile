@@ -10,7 +10,7 @@ node {
         dependencyCheck additionalArguments: '''
 		-s "." 
 		-f "ALL"
-		-o "report/" 
+		-o "./report/" 
 		--prettyPrint''', odcInstallation: 'OWASP Dependency-check'
 		dependencyCheckPublisher pattern: 'dependency-check-report.xml'
      }
