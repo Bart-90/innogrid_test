@@ -5,13 +5,14 @@ node {
      }
      stage('Build image') {
          agent {
-   	 dockerfile {
+   	sh 'docker built --network host -t bart09:test .'
+	/*dockerfile {
        	       filename 'Dockerfile'
                    dir '.'
                    label 'bart09/test'
                    args '--network host -t'
                    additionalBuildArgs  ''
-   	 }
+   	 }*/
          }
      }
      stage('OWASP Dependency-Check Vulnerabilities ') {
