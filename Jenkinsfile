@@ -30,20 +30,52 @@ node {
         stage('SonarQube Quality Gate'){
       
                 timeout(time: 1, unit: 'MINUTES') {
-                    script{
-                        echo "Start~~~~"
-                        def qg = waitForQualityGate()
-                        echo "Status: ${qg.status}"
-                        if(qg.status != 'OK') {
-                            echo "NOT OK Status: ${qg.status}"
-		    /* updateGithubCommitStatus(name: "SonarQube Quality Gate", state: "failed") */
-                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                        } else{
-                            echo "OK Status: ${qg.status}"
-                            /* updateGithubCommitStatus(name: "SonarQube Quality Gate", state: "success") */
-                        }
-                        echo "End~~~~"
-                 }
+                    waitUntil {
+				try {
+					result = httpRequest "http://<sonarqube-instance>/api/project_analyses/search?project=<project-name>:${env.BRANCH_NAME}"
+					def analyses = readJSON text: result.content
+					analysisId = analyses.analyses[0].key
+					
+					for (event in analyses.analyses[0].events) {
+						if (event.category == "VERSION") {
+							eventName = event.name
+							break
+						}
+					}
+					
+					echo "AnalysisId: ${analysisId}"
+					echo "EventName: ${eventName}"
+					echo "Looking for: ${version}"
+					
+					if (eventName == "${version}") {
+						return true
+					} else {
+						return false
+					}
+				} catch (NullPointerException e) {
+					print "No analysis yet"
+					return false
+				}
+			} 
+		}		
+		
+		// read gate via API
+		// use analysisId to find results
+		result = httpRequest "http://<sonarqube-instance>/api/qualitygates/project_status?analysisId=${analysisId}"
+	
+		def object = readJSON text: result.content
+		def status = result.status
+
+		// OK, WARN, ERROR, NONE
+		echo "Quality Gate state: ${status}"
+
+		if (object.projectStatus.status == "NONE") {
+			error "No Quality Gate defined for ${env.BRANCH_NAME}"
+		} else if (object.projectStatus.status != "OK") {
+			error "Pipeline aborted due to quality gate failure: ${object.projectStatus.status}"
+		} else {
+			echo "Quality Gate passed (${object.projectStatus.status})"
+		}
                 
             }
         }
