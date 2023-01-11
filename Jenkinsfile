@@ -77,7 +77,7 @@ node {
 			echo "Quality Gate passed (${object.projectStatus.status})"
 		}
                 
-            }
+            
         }
 
      /* stage('Push image') {
