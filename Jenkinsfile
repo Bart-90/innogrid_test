@@ -10,7 +10,7 @@ node {
         dependencyCheck additionalArguments: '''
 		-s "." 
 		-f "ALL"
-		-o "report/" 
+		-o "./report/" 
 		--prettyPrint
 		--disableYarnAudit''', odcInstallation: 'OWASP Dependency-check'
 		if ($BUILD_NUMBER > 5) {
