@@ -13,7 +13,7 @@ node {
 		-o "./report/" 
 		--prettyPrint
 		--disableYarnAudit''', odcInstallation: 'OWASP Dependency-check'
-		if ($BUILD_NUMBER > 5) {
+		if (env.$BUILD_NUMBER > 6) {
 		dependencyCheckPublisher pattern: 'report/dependency-check-report.xml'
 		}
      }
