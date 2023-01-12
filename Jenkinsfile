@@ -8,7 +8,7 @@ node {
      }*/
      stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
-		-s "./" 
+		-s "." 
 		-f "ALL"
 		-o "report/" 
 		--prettyPrint
@@ -38,7 +38,6 @@ node {
           
           }
      }
-
      /* stage('Push image') {
          docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
              app.push("$BUILD_NUMBER")
