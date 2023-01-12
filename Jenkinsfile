@@ -23,9 +23,7 @@ node {
 		-Dsonar.login=1089bf1c1f3fd28c831ce744752e9f0a1124a5d6 \
 		-Dsonar.sources=. \
 		-Dsonar.report.export.path=sonar-report.json \
-		-Dsonar.sourceEncoding=UTF-8 \
-		-Dsonar.java.binaries=target/classes \
-		-Dsonar.scm.provider=git \
+		-Dsonar.exclusions=./report \
 		-Dsonar.dependencyCheck.jsonReportPath=./report/dependency-check-report.json \
 		-Dsonar.dependencyCheck.xmlReportPath=./report/dependency-check-report.xml \
 		-Dsonar.dependencyCheck.htmlReportPath=./report/dependency-check-report.html"
