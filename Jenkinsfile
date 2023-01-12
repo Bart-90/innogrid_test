@@ -4,7 +4,7 @@ node {
          checkout scm
      }
      /*stage('Build image') {
-         app = docker.build("bart09/test", "--network host -f Dockerfile .")
+         app = docker.build("sjin1105/django", "--network host -f Dockerfile .")
      }*/
      stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
@@ -38,10 +38,10 @@ node {
           
           }
      }
-     /* stage('Push image') {
-         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
+     stage('Push image') {
+         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub id, pwd') {
              app.push("$BUILD_NUMBER")
 	 app.push("latest")
          }
-     } */
+     }
 }
