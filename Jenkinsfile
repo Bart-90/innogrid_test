@@ -16,8 +16,9 @@ node {
 		dependencyCheckPublisher pattern: 'report/dependency-check-report.xml'
      }
      stage('SonarQube analysis') {
+	def scannerHome = tool 'sonarqube scanner';
             withSonarQubeEnv('sonarqube server'){
-                    sh "mvn sonar:sonar \
+                    sh "${scannerHome}/bin/sonar-scanner \
 		-Dsonar.projectKey=sonarqube \
 		-Dsonar.host.url=http://192.168.160.244:9000 \
 		-Dsonar.login=8f74a3057b93ec2c2bb9816a7e7e14d17b21c837 \
