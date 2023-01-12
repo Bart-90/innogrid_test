@@ -38,10 +38,10 @@ node {
           
           }
      }
-     stage('Push image') {
+     /* stage('Push image') {
          docker.withRegistry('https://registry.hub.docker.com', 'docker-hub id, pwd') {
              app.push("$BUILD_NUMBER")
 	 app.push("latest")
          }
-     }
+     }*/
 }
