@@ -17,11 +17,10 @@ node {
      }
      stage('SonarQube analysis') {
 	def scannerHome = tool 'sonarqube scanner';
-            withSonarQubeEnv('sonarqube server'){
+            withSonarQubeEnv('sonarserver'){
                     sh "${scannerHome}/bin/sonar-scanner \
 		-Dsonar.projectKey=sonarqube \
 		-Dsonar.host.url=http://192.168.160.244:9000 \
-		-Dsonar.login=8f74a3057b93ec2c2bb9816a7e7e14d17b21c837 \
 		-Dsonar.sources=. \
 		-Dsonar.report.export.path=sonar-report.json \
 		-Dsonar.exclusions=report/* \
