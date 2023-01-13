@@ -19,9 +19,9 @@ node {
 	def scannerHome = tool 'sonarqube';
             withSonarQubeEnv('sonarserver'){
                     sh "${scannerHome}/bin/sonar-scanner \
-		-Dsonar.projectKey=sonaruser \
+		-Dsonar.projectKey=sonar-token \
 		-Dsonar.host.url=http://192.168.160.244:9000 \
-		-Dsonar.login=8f74a3057b93ec2c2bb9816a7e7e14d17b21c837 \
+		-Dsonar.login=aef63abbeef83eb355bd42939a85113d0d490d95 \
 		-Dsonar.sources=. \
 		-Dsonar.report.export.path=sonar-report.json \
 		-Dsonar.exclusions=report/* \
@@ -32,7 +32,7 @@ node {
      }
         stage('SonarQube Quality Gate'){
     	 timeout(time: 1, unit: 'HOURS') {
-              def qg = waitForQualityGate(credentialsId:'8f74a3057b93ec2c2bb9816a7e7e14d17b21c837')
+              def qg = waitForQualityGate(credentialsId:'aef63abbeef83eb355bd42939a85113d0d490d95')
               if (qg.status != 'OK') {
                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
               }
