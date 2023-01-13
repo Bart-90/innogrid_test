@@ -16,7 +16,7 @@ node {
 		dependencyCheckPublisher pattern: 'report/dependency-check-report.xml'
      }
      stage('SonarQube analysis') {
-	def scannerHome = tool 'sonarqube scanner';
+	def scannerHome = tool 'sonarqube';
             withSonarQubeEnv('sonarserver'){
                     sh "${scannerHome}/bin/sonar-scanner \
 		-Dsonar.projectKey=sonarqube \
