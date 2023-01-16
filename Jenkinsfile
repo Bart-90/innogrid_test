@@ -4,7 +4,7 @@ node {
          checkout scm
      }
      stage('Build image') {
-         app = docker.build("user/django", "--network host -f Dockerfile .")
+         app = docker.build("test/django", "--network host -f Dockerfile .")
      }
      /*stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
