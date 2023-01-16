@@ -3,10 +3,10 @@ node {
      stage('Clone repository') {
          checkout scm
      }
-     /*stage('Build image') {
-         app = docker.build("sjin1105/django", "--network host -f Dockerfile .")
-     }*/
-     stage('OWASP Dependency-Check Vulnerabilities ') {
+     stage('Build image') {
+         app = docker.build("User/django", "--network host -f Dockerfile .")
+     }
+     /*stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
 		-s "." 
 		-f "ALL"
@@ -38,11 +38,11 @@ node {
               }
           
           }
-     }
-     /* stage('Push image') {
-         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub id, pwd') {
+     }*/
+     stage('Push image') {
+         docker.withRegistry('https://192.168.160.244', 'harbor') {
              app.push("$BUILD_NUMBER")
 	 app.push("latest")
          }
-     }*/
+     }
 }
