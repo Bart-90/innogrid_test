@@ -25,12 +25,11 @@ node {
     }
 
     stage('Parallel')
-      parallel Test (
+      parallel Test {
         app.inside {
             sh 'echo "Dummy - tests passed"'
         }
-      )
-    },
+      },
     stage('Anchore Analyze') {
         writeFile file: anchorefile, text: "192.168.160.244/test/harbor-test" + ":${BUILD_NUMBER}" + " " + dockerfile
         anchore name: anchorefile, \
