@@ -1,3 +1,2 @@
-FROM owasp/dependency-check:latest
-WORKDIR /site3/
+FROM alpine:latest
 

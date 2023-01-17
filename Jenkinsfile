@@ -4,7 +4,7 @@ node {
          checkout scm
      }
      stage('Build image') {
-         app = docker.build("innogrid/django", "--network host -f Dockerfile .")
+         app = docker.build("innogrid/test", "--network host -f Dockerfile .")
      }
      /*stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
