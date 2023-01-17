@@ -18,20 +18,20 @@ node {
       app = docker.build("test/harbor-test", "--network host -f Dockerfile .")
       docker.withRegistry("https://192.168.160.244", "harbor") {
         app.push() 
-	app.push("$BUILD_NUMBER")
-	app.push("latest")
+	      app.push("$BUILD_NUMBER")
+	      app.push("latest")
       }
       sh script: "echo Build completed"
     }
 
     stage('Parallel'){
-      parallel Test:{
+      parallel Test: {
         app.inside {
             sh 'echo "Dummy - tests passed"'
         }
-      },
+    },
     
-     stage('Anchore Analyze') {
+     Analyze: {
         writeFile file: anchorefile, text: "192.168.160.244/test/harbor-test" + ":${BUILD_NUMBER}" + " " + dockerfile
         anchore name: anchorefile, \
 	      engineurl: "http://192.168.160.244:8228/v1", \
@@ -46,6 +46,7 @@ node {
       // Delete the docker image and clean up any allotted resources
       sh script: "echo Clean up"
     }
+  }
     
         stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
@@ -80,6 +81,6 @@ node {
           
           }
      }
-  }
- 
 }
+ 
+
