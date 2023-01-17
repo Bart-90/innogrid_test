@@ -70,7 +70,8 @@ node {
         anchore name: anchorefile, \
 	      engineurl: inputConfig['anchoreEngineUrl'], \
 	      engineCredentialsId: inputConfig['anchoreEngineCredentials'], \
-	      annotations: [[key: 'added-by', value: 'jenkins']]
+	      annotations: [[key: 'added-by', value: 'jenkins']], \
+	      forceAnalyze: true
       }
     }
   } finally {
