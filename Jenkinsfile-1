@@ -44,9 +44,8 @@ node {
       // Delete the docker image and clean up any allotted resources
       sh script: "echo Clean up"
     }
-  }
-
-    stage('OWASP Dependency-Check Vulnerabilities ') {
+    
+        stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
 		-s "." 
 		-f "ALL"
@@ -79,4 +78,6 @@ node {
           
           }
      }
+  }
+
 }
