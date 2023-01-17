@@ -12,7 +12,7 @@ stage('Configure') {
 		     string(defaultValue: 'http://localhost:8228/v1/', description: 'Anchore Engine API endpoint', name: 'anchoreEngineUrl', trim: true), \
 		     credentials(credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl', defaultValue: 'admin', description: 'Credentials for interacting with Anchore Engine', name: 'anchoreEngineCredentials', required: true)]
 
-    action = InputConfig.action;
+    action = inputConfig.action;
 
     for (config in inputConfig) {
         if (null == config.value || config.value.length() <= 0) {
