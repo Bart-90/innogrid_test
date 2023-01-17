@@ -1,13 +1,8 @@
-/*node {
-     stage('Clone repository') {
-         checkout scm
-     }
-     stage('Build image') {
-         app = docker.build("onesenal/Innogrid_Project", "--network host -f Dockerfile .")
-     }
-         echo "image built succeffully" 
-     } */
+
 stage('Configure') {
+
+   def action	
+	
     abort = false
     inputConfig = input id: 'InputConfig', message: 'Docker registry and Anchore Engine configuration', \
 	parameters: [string(defaultValue: 'https://192.168.160.244', description: 'URL of the Harbor registry for staging images before analysis', name: 'HarborRegistryUrl', trim: true), \
@@ -16,6 +11,8 @@ stage('Configure') {
 		     credentials(credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl', defaultValue: 'harbor', description: 'Credentials for connecting to the docker registry', name: 'dockerCredentials', required: true), \
 		     string(defaultValue: 'http://localhost:8228/v1/', description: 'Anchore Engine API endpoint', name: 'anchoreEngineUrl', trim: true), \
 		     credentials(credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl', defaultValue: 'admin', description: 'Credentials for interacting with Anchore Engine', name: 'anchoreEngineCredentials', required: true)]
+
+    action = InputConfig.action;
 
     for (config in inputConfig) {
         if (null == config.value || config.value.length() <= 0) {
@@ -35,6 +32,8 @@ node {
   def dockerfile
   def anchorefile
   def repotag
+  def HarborRegistryUrl = "https://192.168.160.244"
+  
 
   try {
     stage('Checkout') {
