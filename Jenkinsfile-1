@@ -24,12 +24,13 @@ node {
       sh script: "echo Build completed"
     }
 
-    stage('Parallel')
-      parallel Test {
+    stage('Parallel'){
+      parallel Test (
         app.inside {
             sh 'echo "Dummy - tests passed"'
         }
-      },
+      )
+    },
     stage('Anchore Analyze') {
         writeFile file: anchorefile, text: "192.168.160.244/test/harbor-test" + ":${BUILD_NUMBER}" + " " + dockerfile
         anchore name: anchorefile, \
@@ -38,7 +39,7 @@ node {
 	      annotations: [[key: 'added-by', value: 'jenkins']], \
 	      forceAnalyze: true
       }
-    }
+    
   } finally {
     stage('Cleanup') {
       // Delete the docker image and clean up any allotted resources
@@ -79,5 +80,5 @@ node {
           }
      }
   }
-
+ 
 }
