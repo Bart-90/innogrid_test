@@ -25,7 +25,7 @@ node {
     }
 
     stage('Parallel'){
-      parallel Test: {
+      parallel AnchoreImageAnalyze: {
         app.inside {
             sh 'echo "Dummy - tests passed"'
         }
