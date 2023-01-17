@@ -79,8 +79,8 @@ node {
       sh script: "echo Clean up"
     }
   }
-}
-     stage('OWASP Dependency-Check Vulnerabilities ') {
+
+    stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
 		-s "." 
 		-f "ALL"
@@ -120,3 +120,4 @@ node {
 	 app.push("latest")
          }
      } */
+}
