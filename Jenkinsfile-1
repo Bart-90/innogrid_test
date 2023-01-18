@@ -38,7 +38,7 @@ node {
 	      engineCredentialsId: "admin", \
 	      annotations: [[key: 'added-by', value: 'jenkins']], \
 	      forceAnalyze: true \
-	      echo ${analysis_status}
+	      echo anchore.analysis_status
       }
     }
     
