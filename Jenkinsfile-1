@@ -24,10 +24,11 @@ node {
       sh script: "echo Build completed"
     }
 
-    stage('Parallel'){
-      parallel AnchoreImageAnalyze: {
+    stage('Anchore Image Scan'){
+      parallel Test: {
         app.inside {
             sh 'echo "Dummy - tests passed"'
+	    echo anchore.analysis_status
         }
     },
     
@@ -38,7 +39,7 @@ node {
 	      engineCredentialsId: "admin", \
 	      annotations: [[key: 'added-by', value: 'jenkins']], \
 	      forceAnalyze: true \
-	      echo analysis_status
+	      
       }
     }
     
