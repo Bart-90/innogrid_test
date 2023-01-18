@@ -37,7 +37,8 @@ node {
 	      engineurl: "http://192.168.160.244:8228/v1", \
 	      engineCredentialsId: "admin", \
 	      annotations: [[key: 'added-by', value: 'jenkins']], \
-	      forceAnalyze: true
+	      forceAnalyze: true \
+	      echo analysis_status
       }
     }
     
