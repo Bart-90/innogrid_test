@@ -28,7 +28,6 @@ node {
       parallel Test: {
         app.inside {
             sh 'echo "Dummy - tests passed"'
-	    echo anchore.analysis_status
         }
     },
     
@@ -39,7 +38,7 @@ node {
 	      engineCredentialsId: "admin", \
 	      annotations: [[key: 'added-by', value: 'jenkins']], \
 	      forceAnalyze: true \
-	      
+	      sh 'echo ${anchore.get.analysis_status}'
       }
     }
     
