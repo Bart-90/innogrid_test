@@ -4,7 +4,9 @@ node {
   def anchorefile
   
   stage('Setup') {
+     script {
      startZap(host: "127.0.0.1", port: 8090, timeout:500, zapHome: "/home/ubuntu/ZAP", allowedHosts:['http://192.168.160.233/']) // Start ZAP at /opt/zaproxy/zap.sh, allowing scans on github.com (if allowedHosts is not provided, any local addresses will be used
+     }
   }
   
   /*
