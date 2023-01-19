@@ -3,11 +3,6 @@ node {
   def dockerfile
   def anchorefile
   
-  stage('Setup') {
-     startZap(host: "127.0.0.1", port: 8090, timeout:500, zapHome: "/home/ubuntu/ZAP", allowedHosts:['http://192.168.160.233/']) // Start ZAP at /opt/zaproxy/zap.sh, allowing scans on github.com (if allowedHosts is not provided, any local addresses will be used
-  }
-  
-  /*
   try {
     stage('Checkout') {
       // Clone the git repository
@@ -83,11 +78,8 @@ node {
               if (qg.status != 'OK') {
                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
               }
-          
           }
      }
-     */
-     
 }
  
 
