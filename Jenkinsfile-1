@@ -4,7 +4,7 @@ node {
   def anchorefile
   
   stage ("Dynamic Analysis - DAST with OWASP ZAP") {
-	sh "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://192.168.160.233/ -j result.json || true"
+	sh "docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-full-scan.py -t http://192.168.160.233/ -r testreport.html"
   }
   /*
   try {
