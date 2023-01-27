@@ -24,31 +24,23 @@ node {
       sh script: "echo Build completed"
     }
 
-    stage('Anchore Image Scan'){
+    stage('Parallel Test'){
       parallel Test: {
         app.inside {
             sh 'echo "Dummy - tests passed"'
         }
     },
     
-     Analyze: {
+     stage('Anchore Image scan') {
         writeFile file: anchorefile, text: "192.168.160.244/test/harbor-test" + ":${BUILD_NUMBER}" + " " + dockerfile
         anchore name: anchorefile, \
 	      engineurl: "http://192.168.160.244:8228/v1", \
 	      engineCredentialsId: "admin", \
 	      annotations: [[key: 'added-by', value: 'jenkins']], \
 	      forceAnalyze: true \
-      }
     }
     
-  } finally {
-    stage('Cleanup') {
-      // Delete the docker image and clean up any allotted resources
-      sh script: "echo Clean up"
-    }
-  }
-    
-        stage('OWASP Dependency-Check Vulnerabilities ') {
+            stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
 		-s "." 
 		-f "ALL"
@@ -57,7 +49,8 @@ node {
 		--disableYarnAudit''', odcInstallation: 'OWASP Dependency-check'
 		dependencyCheckPublisher pattern: 'report/dependency-check-report.xml'
      }
-     stage('SonarQube analysis') {
+    
+         stage('SonarQube analysis') {
 	    def scannerHome = tool 'sonarqube';
             withSonarQubeEnv('sonarserver'){
                     sh "${scannerHome}/bin/sonar-scanner \
@@ -83,15 +76,16 @@ node {
        stage ("Dynamic Analysis - DAST with OWASP ZAP") {
 	sh "docker run --rm -v ${pwd}:/zap/wrk/:rw --user root -t owasp/zap2docker-stable zap-baseline.py -t http://192.168.160.233/ -c gen.conf -J report_json -r report_html -d"
   }
-  
-      post { 
-        success { 
-            slackSend (channel: '#jenkins', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})") 
-        }
-        failure {
-            slackSend (channel: '#jenkins', color: '#F01717', message: "FAILURE: '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-        }
+    
+  } catch (e) {
+  	slackSend (channel: $SLACK_CHANNEL, color: '#F01717', message: "FAILURE: '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+  } finally {
+    stage('Cleanup') {
+      // Delete the docker image and clean up any allotted resources
+      sh script: "echo Clean up"
     }
+    slackSend (channel: $SLACK_CHANNEL, color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})") 
+  }
 }
  
 
