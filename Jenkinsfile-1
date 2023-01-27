@@ -29,6 +29,7 @@ node {
         app.inside {
             sh 'echo "Dummy - tests passed"'
         }
+      }
     }
     
      stage('Anchore Image scan') {
