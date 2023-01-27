@@ -29,7 +29,7 @@ node {
         app.inside {
             sh 'echo "Dummy - tests passed"'
         }
-    },
+    }
     
      stage('Anchore Image scan') {
         writeFile file: anchorefile, text: "192.168.160.244/test/harbor-test" + ":${BUILD_NUMBER}" + " " + dockerfile
