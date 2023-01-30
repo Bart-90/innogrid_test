@@ -79,19 +79,20 @@ node {
   }*/
     
   } catch (e) {
-  	slackSend (channel: '#jenkins', color: '#F01717', message: "FAILURE: '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+ 	currentBuild.result = "FAILURE"
 	error "Pipeline aborted due to quality gate failure: ${qg.status}"
+	throw e
   } finally {
     stage('Cleanup') {
       // Delete the docker image and clean up any allotted resources
       sh script: "echo Clean up"
     }
-    if('${currentBuild.currentResult}'.equals("SUCCESS")){
-    slackSend (channel: '#jenkins-notification', color: '#00FF00', message: "SUCCESSFUL : Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-    }else{
-    slackSend (channel: '#jenkins-notification', color: '#F01717', message: "FAILURE : Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-    }
-  }
+    if(currentBuild.result.equals("SUCCESS")){
+	slackSend (channel: '#jenkins-notification', color: '#00FF00', message: "빌드 성공 : Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+     }else{
+	slackSend (channel: '#jenkins-notification', color: '#F01717', message: "빌드 실패 : Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+     }
+   }
 }
  
 
