@@ -26,7 +26,7 @@ node {
         writeFile file: anchorefile, text: "core.innogrid.duckdns.org/innogrid/$JOB_NAME" + ":${BUILD_NUMBER}" + " " + dockerfile
         anchore name: anchorefile, \
 	      engineurl: "http://anchore.innogrid.duckdns.org", \
-	      engineCredentialsId: "docker", \
+	      engineCredentialsId: "anchore", \
 	      annotations: [[key: 'added-by', value: 'jenkins']], \
 	      forceAnalyze: true
     }
