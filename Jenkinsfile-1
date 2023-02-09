@@ -25,7 +25,7 @@ node {
      stage('Anchore Image scan') {
         writeFile file: anchorefile, text: "core.innogrid.duckdns.org/innogrid/$JOB_NAME" + ":${BUILD_NUMBER}" + " " + dockerfile
         anchore name: anchorefile, \
-	      engineurl: "https://anchore.innogrid.duckdns.org", \
+	      engineurl: "http://anchore.innogrid.duckdns.org", \
 	      engineCredentialsId: "admin", \
 	      annotations: [[key: 'added-by', value: 'jenkins']], \
 	      forceAnalyze: true \
