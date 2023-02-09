@@ -17,7 +17,6 @@ node {
       // Build the image and push it to a staging repository
       app = docker.build("innogrid/$JOB_NAME", "--network host -f Dockerfile .")
       docker.withRegistry("core.innogrid.duckdns.org", "harbor") {
-        app.push() 
 	      app.push("$BUILD_NUMBER")
       }
       sh script: "echo Build completed"
