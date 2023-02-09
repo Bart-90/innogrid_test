@@ -15,33 +15,24 @@ node {
 
     stage('Build') {
       // Build the image and push it to a staging repository
-      app = docker.build("test/harbor-test", "--network host -f Dockerfile .")
-      docker.withRegistry("https://192.168.160.244", "harbor") {
+      app = docker.build("innogrid/$JOB_NAME", "--network host -f Dockerfile .")
+      docker.withRegistry("core.innogrid.duckdns.org", "harbor") {
         app.push() 
 	      app.push("$BUILD_NUMBER")
-	      app.push("latest")
       }
       sh script: "echo Build completed"
     }
-
-    stage('Parallel Test'){
-      parallel Test: {
-        app.inside {
-            sh 'echo "Dummy - tests passed"'
-        }
-      }
-    }
     
      stage('Anchore Image scan') {
-        writeFile file: anchorefile, text: "192.168.160.244/test/harbor-test" + ":${BUILD_NUMBER}" + " " + dockerfile
+        writeFile file: anchorefile, text: "core.innogrid.duckdns.org/innogrid/$JOB_NAME" + ":${BUILD_NUMBER}" + " " + dockerfile
         anchore name: anchorefile, \
-	      engineurl: "http://192.168.160.244:8228/v1", \
-	      engineCredentialsId: "admin", \
+	      engineurl: "anchore.innogrid.duckdns.org", \
+	      engineCredentialsId: "anchore", \
 	      annotations: [[key: 'added-by', value: 'jenkins']], \
 	      forceAnalyze: true \
     }
     
-            stage('OWASP Dependency-Check Vulnerabilities ') {
+    /*        stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
 		-s "." 
 		-f "ALL"
@@ -76,9 +67,7 @@ node {
 	      }
           }
      }
-      /* stage ("Dynamic Analysis - DAST with OWASP ZAP") {
-	sh "docker run --rm -v ${pwd}:/zap/wrk/:rw --user root -t owasp/zap2docker-stable zap-baseline.py -t http://192.168.160.233/ -c gen.conf -J report_json -r report_html -d"
-  }*/
+    */
     
   } catch (e) {
  	currentBuild.result = "FAILURE"
