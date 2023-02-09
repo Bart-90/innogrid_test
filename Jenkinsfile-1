@@ -27,8 +27,8 @@ node {
         anchore name: anchorefile, \
 	      engineurl: "http://anchore.innogrid.duckdns.org", \
 	      engineCredentialsId: "anchore", \
-	      annotations: [[key: 'added-by', value: 'jenkins']], \
-	      forceAnalyze: true \
+	      annotations: [[key: 'added-by', value: 'jenkins']]
+	      //forceAnalyze: true
     }
     
     /*        stage('OWASP Dependency-Check Vulnerabilities ') {
