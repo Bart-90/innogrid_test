@@ -23,12 +23,12 @@ node {
     }
     
      stage('Anchore Image scan') {
-        writeFile file: anchorefile, text: "https://core.innogrid.duckdns.org/innogrid/$JOB_NAME" + ":${BUILD_NUMBER}" + " " + dockerfile
+        writeFile file: anchorefile, text: "core.innogrid.duckdns.org/innogrid/$JOB_NAME" + ":${BUILD_NUMBER}" + " " + dockerfile
         anchore name: anchorefile, \
 	      engineurl: "http://anchore.innogrid.duckdns.org", \
 	      engineCredentialsId: "anchore", \
-	      annotations: [[key: 'added-by', value: 'jenkins']]
-	      //forceAnalyze: true
+	      annotations: [[key: 'added-by', value: 'jenkins']], \
+	      forceAnalyze: true
     }
     
     /*        stage('OWASP Dependency-Check Vulnerabilities ') {
