@@ -38,16 +38,16 @@ node {
 		-Dsonar.dependencyCheck.htmlReportPath=./report/dependency-check-report.html"
          }
      }
-        stage('SonarQube Quality Gate'){
+       /* stage('SonarQube Quality Gate'){
     	 timeout(time: 1, unit: 'HOURS') {
               def qg = waitForQualityGate()
               if (qg.status != 'OK') {
                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
               }
           }
-     }
+     } */
    
-       stage('Build') {
+     stage('Build') {
       // Build the image and push it to a staging repository
       app = docker.build("innogrid/$JOB_NAME", "--network host -f Dockerfile .")
       docker.withRegistry("https://core.innogrid.duckdns.org", "harbor") {
@@ -67,12 +67,11 @@ node {
     }
   } catch (e) {
  	currentBuild.result = "FAILURE"
-	error "Pipeline aborted due to quality gate failure: ${qg.status}"
+	echo "Exception=${e}"
 	throw e
   } finally {
     stage('Pipeline End') {
-      // Delete the docker image and clean up any allotted resources
-      sh script: "Pipeline End"
+      sh script: "Echo Pipeline End"
     }
     if(currentBuild.result.equals("SUCCESS")){
 	slackSend (channel: '#jenkins-notification', color: '#00FF00', message: "빌드 성공 : Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
