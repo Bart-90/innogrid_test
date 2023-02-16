@@ -71,7 +71,7 @@ node {
 	throw e
   } finally {
     stage('Pipeline End') {
-      sh script: "Echo Pipeline End"
+      sh script: "echo Pipeline End"
     }
     if(currentBuild.result.equals("SUCCESS")){
 	slackSend (channel: '#jenkins-notification', color: '#00FF00', message: "빌드 성공 : Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
