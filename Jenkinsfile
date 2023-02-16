@@ -30,7 +30,7 @@ node {
  		-Dsonar.projectKey=test \
   		-Dsonar.sources=. \
   		-Dsonar.host.url=http://192.168.160.229:9000 \
- 		-Dsonar.login= \
+ 		-Dsonar.login=7a9786bbb0cff283184d7b1034aaff8be7cc1b14 \
 		-Dsonar.exclusions=report/* \
 		-Dsonar.report.export.path=sonar-report.json \
 		-Dsonar.dependencyCheck.jsonReportPath=./report/dependency-check-report.json \
