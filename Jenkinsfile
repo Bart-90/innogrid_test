@@ -37,14 +37,6 @@ node {
 		-Dsonar.dependencyCheck.htmlReportPath=./report/dependency-check-report.html"
          }
      }
-       /* stage('SonarQube Quality Gate'){
-    	 timeout(time: 1, unit: 'HOURS') {
-              def qg = waitForQualityGate()
-              if (qg.status != 'OK') {
-                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
-              }
-          }
-     } */
    
      stage('Build') {
       // Build the image and push it to a staging repository
