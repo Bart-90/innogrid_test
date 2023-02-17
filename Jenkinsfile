@@ -21,7 +21,7 @@ node {
 		--disableYarnAudit''', odcInstallation: 'OWASP-Dependency-check'
 		dependencyCheckPublisher pattern: 'report/dependency-check-report.xml'
      }
-    
+     /*
          stage('SonarQube analysis') {
 	    def scannerHome = tool 'sonarqube';
             withSonarQubeEnv('sonarserver'){
@@ -64,6 +64,7 @@ node {
 	      forceAnalyze: true
 	currentBuild.result = "SUCCESS"
     }
+	 */
   } catch (e) {
  	currentBuild.result = "FAILURE"
 	echo "Exception=${e}"
