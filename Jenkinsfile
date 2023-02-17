@@ -15,9 +15,8 @@ node {
 
     stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
-		-s "." 
+		-s '.'
 		-f "ALL"
-		-o "./report/"
 		--prettyPrint
 		--disableYarnAudit''', odcInstallation: 'OWASP-Dependency-check'
 		dependencyCheckPublisher pattern: 'report/dependency-check-report.xml'
