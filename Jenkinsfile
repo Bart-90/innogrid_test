@@ -15,7 +15,7 @@ node {
 
     stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
-		-s '.'
+		-s './argocd'
 		-o "./report/"
 		-f "ALL"
 		--prettyPrint
