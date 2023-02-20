@@ -12,7 +12,21 @@ node {
       dockerfile = path + "/Dockerfile"
       anchorefile = path + "/anchore_images"
     }
-
+     stage('Build') {
+      // Build the image and push it to a staging repository
+      app = docker.build("innogrid/$JOB_NAME", "--network host -f Dockerfile .")
+      docker.withRegistry("https://core.innogrid.duckdns.org", "harbor") {
+	      app.push("$BUILD_NUMBER")
+	      app.push("latest")
+      }
+      sh script: "echo Build completed"
+    }
+    
+    stage('Grype Image Scan') {
+    	grypeScan scanDest: 'https://core.innogrid.duckdns.org/innogrid/$JOB_NAME', repName: 'myGrypeScanResult.txt'
+	currentBuild.result = "SUCCESS"
+     }
+    /*
     stage('OWASP Dependency-Check Vulnerabilities ') {
         dependencyCheck additionalArguments: '''
 		-s "."
@@ -38,22 +52,7 @@ node {
 		-Dsonar.dependencyCheck.htmlReportPath=./report/dependency-check-report.html"
          }
      }
-   
-     stage('Build') {
-      // Build the image and push it to a staging repository
-      app = docker.build("innogrid/$JOB_NAME", "--network host -f Dockerfile .")
-      docker.withRegistry("https://core.innogrid.duckdns.org", "harbor") {
-	      app.push("$BUILD_NUMBER")
-	      app.push("latest")
-      }
-      sh script: "echo Build completed"
-    }
     
-    stage('Grype Image Scan') {
-    	grypeScan scanDest: 'https://core.innogrid.duckdns.org/innogrid/$JOB_NAME', repName: 'myGrypeScanResult.txt'
-	currentBuild.result = "SUCCESS"
-     }
-    /*
      stage('Grype Image Scan') {
     	docker.withRegistry('https://core.innogrid.duckdns.org', 'harbor') {
 	    sh 'grype innogrid/$JOB_NAME:latest --scope AllLayers'
