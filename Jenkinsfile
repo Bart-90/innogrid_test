@@ -53,6 +53,7 @@ node {
     	docker.withRegistry('https://core.innogrid.duckdns.org', 'harbor') {
 	    sh 'grype innogrid/$JOB_NAME:latest --scope AllLayers'
 	}
+	currentBuild.result = "SUCCESS"
      }
     
     /*
@@ -63,7 +64,6 @@ node {
 	      engineCredentialsId: "anchore", \
 	      annotations: [[key: 'added-by', value: 'jenkins']], \
 	      forceAnalyze: true
-	currentBuild.result = "SUCCESS"
     }
     */
   } catch (e) {
