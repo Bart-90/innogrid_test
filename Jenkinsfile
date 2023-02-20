@@ -49,6 +49,11 @@ node {
       sh script: "echo Build completed"
     }
     
+    stage('Grype Image Scan') {
+    	grypeScan scanDest: 'https://core.innogrid.duckdns.org/innogrid/$JOB_NAME', repName: 'myGrypeScanResult.txt'
+	currentBuild.result = "SUCCESS"
+     }
+    /*
      stage('Grype Image Scan') {
     	docker.withRegistry('https://core.innogrid.duckdns.org', 'harbor') {
 	    sh 'grype innogrid/$JOB_NAME:latest --scope AllLayers'
@@ -56,7 +61,7 @@ node {
 	currentBuild.result = "SUCCESS"
      }
     
-    /*
+    
      stage('Anchore Image scan') {
         writeFile file: anchorefile, text: "core.innogrid.duckdns.org/innogrid/$JOB_NAME" + ":${BUILD_NUMBER}" + " " + dockerfile
         anchore name: anchorefile, \
