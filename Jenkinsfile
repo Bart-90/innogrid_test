@@ -22,7 +22,7 @@ node {
 		--disableYarnAudit''', odcInstallation: 'OWASP-Dependency-check'
 		dependencyCheckPublisher pattern: 'report/dependency-check-report.xml'
      }
-     /*
+    
          stage('SonarQube analysis') {
 	    def scannerHome = tool 'sonarqube';
             withSonarQubeEnv('sonarserver'){
@@ -44,10 +44,18 @@ node {
       app = docker.build("innogrid/$JOB_NAME", "--network host -f Dockerfile .")
       docker.withRegistry("https://core.innogrid.duckdns.org", "harbor") {
 	      app.push("$BUILD_NUMBER")
+	      app.push("latest")
       }
       sh script: "echo Build completed"
     }
     
+        stage('Anchore Image Scan') {
+    	docker.withRegistry('https://core.innogrid.duckdns.org', 'harbor') {
+	    sh 'grype innogrid/$JOB_NAME:latest --scope AllLayers'
+	}
+      }
+    
+    /*
      stage('Anchore Image scan') {
         writeFile file: anchorefile, text: "core.innogrid.duckdns.org/innogrid/$JOB_NAME" + ":${BUILD_NUMBER}" + " " + dockerfile
         anchore name: anchorefile, \
@@ -57,7 +65,7 @@ node {
 	      forceAnalyze: true
 	currentBuild.result = "SUCCESS"
     }
-	 */
+    */
   } catch (e) {
  	currentBuild.result = "FAILURE"
 	echo "Exception=${e}"
