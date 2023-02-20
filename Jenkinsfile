@@ -23,7 +23,7 @@ node {
     }
     
     stage('Grype Image Scan') {
-    	grypeScan scanDest: 'core.innogrid.duckdns.org/innogrid/test:latest', repName: 'myGrypeScanResult.txt'
+    	grypeScan scanDest: 'url:https://core.innogrid.duckdns.org/innogrid/test:latest', repName: 'myGrypeScanResult.txt'
 	currentBuild.result = "SUCCESS"
      }
     /*
