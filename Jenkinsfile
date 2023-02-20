@@ -49,11 +49,11 @@ node {
       sh script: "echo Build completed"
     }
     
-        stage('Anchore Image Scan') {
+     stage('Grype Image Scan') {
     	docker.withRegistry('https://core.innogrid.duckdns.org', 'harbor') {
 	    sh 'grype innogrid/$JOB_NAME:latest --scope AllLayers'
 	}
-      }
+     }
     
     /*
      stage('Anchore Image scan') {
